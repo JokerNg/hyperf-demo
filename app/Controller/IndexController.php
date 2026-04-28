@@ -9,11 +9,15 @@ use App\Service\WechatService;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 use Hyperf\Validation\Annotation\Scene;
+use Psr\Log\LoggerInterface;
 
 #[Controller('/')]
 class IndexController extends AbstractController
 {
-    public function __construct(protected WechatService $wechatService)
+    public function __construct(
+        protected WechatService $wechatService,
+        protected LoggerInterface $logger
+    )
     {
     }
 

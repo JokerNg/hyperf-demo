@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 /*
@@ -16,9 +16,26 @@ use Monolog\Logger;
 return [
     'default' => [
         'handler' => [
-            'class' => StreamHandler::class,
+            'class' => RotatingFileHandler::class,
             'constructor' => [
-                'stream' => BASE_PATH . '/runtime/logs/hyperf.log',
+                'filename' => BASE_PATH . '/runtime/logs/hyperf.log',
+                'level' => Logger::INFO,
+            ],
+        ],
+        'formatter' => [
+            'class' => LineFormatter::class,
+            'constructor' => [
+                'format' => null,
+                'dateFormat' => 'Y-m-d H:i:s',
+                'allowInlineLineBreaks' => true,
+            ],
+        ],
+    ],
+    'sql' => [
+        'handler' => [
+            'class' => RotatingFileHandler::class,
+            'constructor' => [
+                'filename' => BASE_PATH . '/runtime/logs/sql.log',
                 'level' => Logger::INFO,
             ],
         ],

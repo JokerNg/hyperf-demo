@@ -9,7 +9,7 @@ use Hyperf\Validation\Request\FormRequest;
 class IndexRequest extends FormRequest
 {
     protected array $scenes = [
-        'default' => [
+        'index' => [
             'id' => 'required|integer',
         ],
         'test' => [

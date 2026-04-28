@@ -13,6 +13,7 @@ use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Throwable;
 
 class AppExceptionHandler extends ExceptionHandler
@@ -20,15 +21,18 @@ class AppExceptionHandler extends ExceptionHandler
     use ResponseTrait;
 
     protected ContainerInterface $container;
+    protected LoggerInterface $fileLogger;
 
     public function __construct(protected StdoutLoggerInterface $logger)
     {
         $this->container = ApplicationContext::getContainer();
+        $this->fileLogger = $this->container->get(LoggerInterface::class);
     }
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
         if ($throwable instanceof AppException) {
+            $this->stopPropagation();
             return $this->error($throwable->getMessage(), $throwable->getCode(), null, $response);
         }
         $this->logger->error(sprintf('%s[%s] in %s', $throwable->getMessage(), $throwable->getLine(), $throwable->getFile()));

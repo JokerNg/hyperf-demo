@@ -1,14 +1,6 @@
 <?php
 
 declare(strict_types=1);
-/**
- * This file is part of Hyperf.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
- */
 
 namespace App\Listener;
 
@@ -53,7 +45,7 @@ class DbQueryExecutedListener implements ListenerInterface
 
         if ($event instanceof QueryExecuted) {
             $sql = $event->sql;
-            if (! Arr::isAssoc($event->bindings)) {
+            if (!Arr::isAssoc($event->bindings)) {
                 $position = 0;
                 foreach ($event->bindings as $value) {
                     $position = strpos($sql, '?', $position);

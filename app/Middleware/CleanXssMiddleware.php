@@ -6,8 +6,8 @@ namespace App\Middleware;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class CleanXssMiddleware implements MiddlewareInterface
@@ -45,10 +45,10 @@ class CleanXssMiddleware implements MiddlewareInterface
             return $str;
         }
 
-        $search   = [
+        $search = [
             '@<script[^>]*?>.*?</script>@si',
             '@<style[^>]*?>.*?</style>@siU',
-            '@<![\s\S]*?--[ \t\n\r]*>@'
+            '@<![\s\S]*?--[ \t\n\r]*>@',
         ];
         $tagArray = [
             'a',
@@ -172,7 +172,7 @@ class CleanXssMiddleware implements MiddlewareInterface
             'var',
             'video',
             'wbr',
-            'image'
+            'image',
         ];
 
         foreach ($tagArray as $key => $value) {

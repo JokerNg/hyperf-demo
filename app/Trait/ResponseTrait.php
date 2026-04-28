@@ -7,6 +7,7 @@ namespace App\Trait;
 use Hyperf\Context\ApplicationContext;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Psr7ResponseInterface;
+use stdClass;
 
 trait ResponseTrait
 {
@@ -15,7 +16,7 @@ trait ResponseTrait
         return $this->getResponse($response)->json([
             'code' => $code,
             'message' => $message,
-            'data' => $data === null ? new \stdClass() : $data,
+            'data' => $data === null ? new stdClass() : $data,
         ]);
     }
 
@@ -24,7 +25,7 @@ trait ResponseTrait
         return $this->getResponse($response)->json([
             'code' => $code,
             'message' => $message,
-            'data' => $data === null ? new \stdClass() : $data,
+            'data' => $data === null ? new stdClass() : $data,
         ]);
     }
 

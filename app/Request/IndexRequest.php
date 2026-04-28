@@ -8,6 +8,16 @@ use Hyperf\Validation\Request\FormRequest;
 
 class IndexRequest extends FormRequest
 {
+    protected array $scenes = [
+        'default' => [
+            'id' => 'required|integer',
+        ],
+        'test' => [
+            'name' => 'required|string',
+            'email' => 'required|email',
+        ],
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -37,14 +47,4 @@ class IndexRequest extends FormRequest
             'email.email' => 'email格式错误',
         ];
     }
-
-    protected array $scenes = [
-        'default' => [
-            'id' => 'required|integer',
-        ],
-        'test' => [
-            'name' => 'required|string',
-            'email' => 'required|email',
-        ],
-    ];
 }

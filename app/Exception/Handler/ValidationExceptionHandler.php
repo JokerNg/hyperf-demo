@@ -43,8 +43,8 @@ class ValidationExceptionHandler extends \Hyperf\Validation\ValidationExceptionH
 
     private function isJsonRequest(): bool
     {
-        $request    = $this->container->get(RequestInterface::class);
-        $accept     = $request->getHeaderLine('Accept');
+        $request = $this->container->get(RequestInterface::class);
+        $accept = $request->getHeaderLine('Accept');
         $contentType = $request->getHeaderLine('Content-Type');
         return str_contains($accept, 'application/json') || str_contains($contentType, 'application/json');
     }

@@ -2,21 +2,12 @@
 
 declare(strict_types=1);
 /**
- * This file is part of Hyperf.
- *
  * @link     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
-$header = <<<'EOF'
-This file is part of Hyperf.
-
-@link     https://www.hyperf.io
-@document https://hyperf.wiki
-@contact  group@hyperf.io
-@license  https://github.com/hyperf/hyperf/blob/master/LICENSE
-EOF;
+$header = '';
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
@@ -86,7 +77,7 @@ return (new PhpCsFixer\Config())
         'lowercase_static_reference' => true,
         'no_useless_else' => true,
         'no_unused_imports' => true,
-        'not_operator_with_successor_space' => true,
+        'not_operator_with_successor_space' => false,
         'not_operator_with_space' => false,
         'ordered_class_elements' => true,
         'php_unit_strict' => false,

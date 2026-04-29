@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Middleware;
 
 use App\Service\JwtService;
-use App\Trait\ResponseTrait;
 use Hyperf\Context\Context;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\ResponseInterface as Psr7ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,17 +15,26 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class AuthMiddleware implements MiddlewareInterface
 {
-    use ResponseTrait;
     public const string AUTH_USER_ID = 'auth_user_id';
+
+    protected array $publicPaths;
 
     public function __construct(
         protected JwtService $jwtService,
+        protected ConfigInterface $config,
         protected ResponseInterface $response,
     ) {
+        $this->publicPaths = (array) $this->config->get('auth.public_paths', []);
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): Psr7ResponseInterface
     {
+        $path = $request->getUri()->getPath();
+
+        if ($this->isPublicPath($path)) {
+            return $handler->handle($request);
+        }
+
         $token = $this->extractBearerToken($request);
         if ($token === null) {
             return $this->unauthorized('缺少认证令牌');
@@ -46,6 +55,22 @@ class AuthMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    private function isPublicPath(string $path): bool
+    {
+        foreach ($this->publicPaths as $pattern) {
+            if (str_ends_with($pattern, '*')) {
+                $prefix = substr($pattern, 0, -1);
+                if (str_starts_with($path, $prefix)) {
+                    return true;
+                }
+            } elseif ($path === $pattern) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function extractBearerToken(ServerRequestInterface $request): ?string
     {
         $authHeader = $request->getHeaderLine('Authorization');
@@ -57,6 +82,10 @@ class AuthMiddleware implements MiddlewareInterface
 
     private function unauthorized(string $message): Psr7ResponseInterface
     {
-        return $this->error($message, 401, response: $this->response)->withStatus(401);
+        return $this->response->json([
+            'code' => 401,
+            'message' => $message,
+            'data' => new \stdClass(),
+        ])->withStatus(401);
     }
 }

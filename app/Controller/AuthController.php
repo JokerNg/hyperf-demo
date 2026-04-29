@@ -11,7 +11,6 @@ use App\Request\Auth\RegisterRequest;
 use App\Service\JwtService;
 use Hyperf\Context\Context;
 use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\Middleware;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 use Hyperf\Validation\Annotation\Scene;
 
@@ -75,7 +74,6 @@ class AuthController extends AbstractController
     }
 
     #[RequestMapping(path: '/logout', methods: ['post'])]
-    #[Middleware(AuthMiddleware::class)]
     public function logout()
     {
         $token = $this->extractBearerToken();
@@ -88,7 +86,6 @@ class AuthController extends AbstractController
     }
 
     #[RequestMapping(path: '/me', methods: ['get'])]
-    #[Middleware(AuthMiddleware::class)]
     public function me()
     {
         $userId = Context::get(AuthMiddleware::AUTH_USER_ID);

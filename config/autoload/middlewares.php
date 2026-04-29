@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use App\Middleware\AuthMiddleware;
 use App\Middleware\CleanXssMiddleware;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\RateLimitMiddleware;
@@ -13,6 +14,7 @@ return [
         RequestLogMiddleware::class,
         CorsMiddleware::class,
         CleanXssMiddleware::class,
+        AuthMiddleware::class,
         ValidationMiddleware::class,
     ],
 ];

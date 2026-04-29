@@ -6,12 +6,14 @@ namespace App\Controller;
 
 use App\Request\IndexRequest;
 use App\Service\WechatService;
+use Hyperf\HttpServer\Annotation\AutoController;
 use Hyperf\HttpServer\Annotation\Controller;
-use Hyperf\HttpServer\Annotation\RequestMapping;
+use Hyperf\HttpServer\Annotation\GetMapping;
+use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Validation\Annotation\Scene;
 use Psr\Log\LoggerInterface;
 
-#[Controller('/')]
+#[Controller(prefix: 'index')]
 class IndexController extends AbstractController
 {
     public function __construct(
@@ -21,13 +23,13 @@ class IndexController extends AbstractController
     {
     }
 
-    #[RequestMapping(path: '/', methods: ['get']), Scene()]
+    #[GetMapping(path: 'index'), Scene()]
     public function index(IndexRequest $request)
     {
         return $this->success();
     }
 
-    #[RequestMapping(path: '/test', methods: ['post']), Scene()]
+    #[PostMapping(path: 'test'), Scene()]
     public function test(IndexRequest $request)
     {
         $params = $this->request->all();

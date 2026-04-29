@@ -1,7 +1,7 @@
 services:
-  hyperf-skeleton:
-    container_name: hyperf-skeleton
-    image: hyperf-skeleton
+  hyperf-demo:
+    container_name: hyperf-demo
+    image: hyperf-demo
     build:
       dockerfile: dev.Dockerfile
       args:
@@ -17,4 +17,4 @@ services:
 
 networks:
   default:
-    name: hyperf-skeleton
+    name: hyperf-demo
